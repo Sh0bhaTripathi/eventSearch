@@ -10,13 +10,11 @@ export class SliderComponent implements AfterContentInit {
 
   @ContentChildren(SliderItemDirective, { read: ElementRef }) items
     : QueryList<ElementRef<HTMLDivElement>>;
-   //@ContentChildren(SliderItemDirective, {descendants: true}) items: QueryList<ElementRef<HTMLDivElement>>;
   @ViewChild('slides') slidesContainer: ElementRef<HTMLDivElement>;
 
   private slidesIndex = 0;
 
   get currentItem(): ElementRef<HTMLDivElement> {
-    console.log("inside currentItem--",this.items)
     return this.items.find((item, index) => index === this.slidesIndex);
   }
 
@@ -26,7 +24,6 @@ export class SliderComponent implements AfterContentInit {
 
   ngAfterViewInit() {
     console.log('slides', this.slidesContainer);
-    console.log("inside currentItem--",this.items)
   }
 
   onClickLeft() {

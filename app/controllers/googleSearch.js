@@ -28,6 +28,8 @@ async function runSample(qParam) {
     return res.data;
 }
 
+
+
 exports.getAllEvents = function(req, res) {
     // runSample(req.query).then(result => {
     //     console.log(JSON.stringify(result), "<----result");
@@ -38,11 +40,13 @@ exports.getAllEvents = function(req, res) {
     //let event = (new Date((req.query.range_start).split('+')[0])).toISOString();
    // console.log("date--->>>",req.query.range_start, typeof(req.query.range_start),  event)
     let location = req.query.location ? req.query.location : "Gurgaon India";
+    //let categories = req.query.catId ? req.query.catId: '';
     let url = `https://www.eventbriteapi.com/v3/events/search/?token=RWJZERSMVZIX74VM6X2I&expand=organizer,venue
       &location.address=${location}`;
       //url = url+ `&start_date.range_start=${req.query.range_start? new Date(req.query.range_start) : null}&start_date.range_end=${req.query.range_end? new Date(req.query.range_end): null}`;
-
+    url = (req.query.catId && req.query.catId != 'undefined') ? (url+'&categories='+ req.query.catId):url;
     let start  = req.query.range_start? req.query.range_start : null;
+    console.log(req.query.catId,"request url--->>", url);
     request(url, function(error, response, body) {
       if(res.error){
         console.log('error:', error);

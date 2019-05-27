@@ -30,9 +30,14 @@ export class ChatComponent implements OnInit {
   formValue: string;
   disableScrollDown = false;
   isOpen = false;
+  eventsSearched: Array<any> = [];
   constructor(public chat: ChatService, private renderer: Renderer) { }
 
   ngOnInit() {
+    console.log("local storage-->>>>",localStorage);
+    if(JSON.parse(localStorage.getItem("searchParams"))) {
+      this.chat.getAllEventsBylastSearches(localStorage.getItem("searchParams"))
+    }
     // appends to array after each new message is added to feedSource
     this.messages = this.chat.conversation.asObservable()
         .scan((acc, val) => {
@@ -46,12 +51,16 @@ export class ChatComponent implements OnInit {
 
   sendMessage() {
   	if(this.formValue) {
+      this.chat.chips = [];
   		let reqObj = {
 	  		query: this.formValue,
 	  		contexts: (this.chat.contexts ? JSON.stringify(this.chat.contexts) : false)
 	  	}
 	    this.chat.converse(reqObj);
 	    this.formValue = '';
+      if(this.chat.eventsSearched.length > 0) {
+        this.eventsSearched = this.chat.eventsSearched;
+      }
   	}
   	
   }
@@ -87,4 +96,16 @@ export class ChatComponent implements OnInit {
             this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
         } catch(err) { }
     }
+
+    bookTicketRedirect(event, url) {
+      console.log(url, "<---url")
+      window.open(url, '_blank');
+    }
+
+    clickChip(event, chip) {
+    console.log(chip);
+    this.formValue = chip;
+    this.sendMessage();
+    this.chat.chips = [];
+  }
 }
