@@ -9,7 +9,7 @@ const {
  * Send a query to the dialogflow agent, and return the query result.
  * @param {string} 'testagent-161cb' The project to be used
  */
-const projectId = 'affle-47179';
+const projectId = 'events-search-jwpvgt';
 const sessionId = uuid.v4();
 //create new context
 const contextsClient = new dialogflow.ContextsClient();

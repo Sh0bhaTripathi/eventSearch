@@ -31,7 +31,7 @@ app.use(function(req, res, next) {
     // Pass to next layer of middleware
     next();
 });
-
+app.set('trust proxy', true);
 var config = require('./config/config');
 
 app.use(cookieParser()); // Initialize cookie parser
